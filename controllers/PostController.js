@@ -33,7 +33,7 @@ export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
 
-        PostModel.findOneAndUpdate(
+        await PostModel.findOneAndUpdate(
             {
                 _id: postId
             },
@@ -60,7 +60,7 @@ export const remove = async (req, res) => {
     try {
         const postId = req.params.id;
 
-        PostModel.findOneAndDelete(
+        await PostModel.findOneAndDelete(
             {
                 _id: postId
             })
@@ -81,7 +81,7 @@ export const update = async (req, res) => {
     try {
         const postId = req.params.id;
 
-        PostModel.updateOne(
+        await  PostModel.updateOne(
             {
                 _id: postId
             },
