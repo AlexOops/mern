@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import cors from "cors";
 
 import {registerValidation, loginValidation, postCreateValidation} from "./validations.js";
 
@@ -33,6 +34,8 @@ app.use(multer({storage: storage}).single("image"));
 
 app.use('/uploads', express.static('uploads'));
 
+app.use(cors()); // c фронта не блокирвался на localhost:4444
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -54,7 +57,10 @@ app.post("/upload", checkAuth, (req, res) => {
         })
 });
 
+app.get("/tags", PostController.getLastTags);
+
 app.get("/posts", PostController.getAll);
+app.get("/posts/tags", PostController.getLastTags);
 app.get("/posts/:id", PostController.getOne);
 app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
