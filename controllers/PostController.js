@@ -5,7 +5,7 @@ export const create = async (req, res) => {
         const doc = new PostModel({
             title: req.body.title,
             text: req.body.text,
-            tags: req.body.tags,
+            tags: req.body.tags.split(','),
             imageUrl: req.body.imageUrl,
             user: req.userId // при создании id же будет в req
         });
@@ -57,10 +57,11 @@ export const getOne = async (req, res) => {
             {
                 returnDocument: 'after' // вернуть новый документ после обновления
             })
+            .populate('user')
             .then((doc) => { // функция, которая будет выполняться
-                if (!doc) {
-                    return res.status(404).json({message: "post will not be found"});
-                }
+                // if (!doc) {
+                //     return res.status(404).json({message: "post will not be found"});
+                // }
                 res.json(doc);
             });
 
@@ -102,7 +103,7 @@ export const update = async (req, res) => {
             {
                 title: req.body.title,
                 text: req.body.text,
-                tags: req.body.tags,
+                tags: req.body.tags.split(','),
                 imageUrl: req.body.imageUrl,
                 user: req.userId
             })
